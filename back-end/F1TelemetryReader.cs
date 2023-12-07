@@ -19,8 +19,8 @@ class F1TelemetryReader
     {
         _telemetryClient = new TelemetryClient(port);
         
-        _telemetryClient.OnLapDataReceive += Client_OnLapDataRecieve;
-        _telemetryClient.OnSessionDataReceive += Client_OnSessionDataRecieve;
+        _telemetryClient.OnLapDataReceive += Client_OnLapDataReceive;
+        _telemetryClient.OnSessionDataReceive += Client_OnSessionDataReceive;
     }
 
     public bool IsConnected()
@@ -28,7 +28,7 @@ class F1TelemetryReader
         return _telemetryClient.Connected;
     }
     
-    private static void Client_OnLapDataRecieve(LapDataPacket packet)
+    private static void Client_OnLapDataReceive(LapDataPacket packet)
     {
         // Get the player index from the list of cars in the session
         int playerIndex = packet.header.playerCarIndex;
@@ -48,7 +48,7 @@ class F1TelemetryReader
         }
     }
 
-    private static void Client_OnSessionDataRecieve(SessionPacket packet)
+    private static void Client_OnSessionDataReceive(SessionPacket packet)
     {
         if (!TimeTrial)
         {
