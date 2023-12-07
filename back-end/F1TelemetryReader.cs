@@ -5,7 +5,7 @@ namespace BackEnd;
 
 class F1TelemetryReader
 {
-    private TelemetryClient TelemetryClient { get; }
+    private readonly TelemetryClient _telemetryClient;
     
     private static uint OldTime { get; set; }
 
@@ -17,15 +17,15 @@ class F1TelemetryReader
     /// <param name="port">The port to listen to (default = 20777)</param>
     public F1TelemetryReader(int port = 20777)
     {
-        TelemetryClient = new TelemetryClient(port);
+        _telemetryClient = new TelemetryClient(port);
         
-        TelemetryClient.OnLapDataReceive += Client_OnLapDataRecieve;
-        TelemetryClient.OnSessionDataReceive += Client_OnSessionDataRecieve;
+        _telemetryClient.OnLapDataReceive += Client_OnLapDataRecieve;
+        _telemetryClient.OnSessionDataReceive += Client_OnSessionDataRecieve;
     }
 
     public bool IsConnected()
     {
-        return TelemetryClient.Connected;
+        return _telemetryClient.Connected;
     }
     
     private static void Client_OnLapDataRecieve(LapDataPacket packet)
