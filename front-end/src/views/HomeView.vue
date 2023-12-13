@@ -16,7 +16,7 @@
             <th>Track</th>
             <th>Date</th>
           </tr>
-          <tr>
+          <tr class="first">
             <td>Mart</td>
             <td>01:12.573</td>
             <td>Zandvoort</td>
@@ -25,13 +25,13 @@
           <tr>
             <td>Jay</td>
             <td>01:22.437</td>
-            <td>Spa</td>
+            <td>Zandvoort</td>
             <td>07/11/2023</td>
           </tr>
           <tr>
             <td>Niek</td>
             <td>01:37.569</td>
-            <td>Monza</td>
+            <td>Zandvoort</td>
             <td>10/09/2023</td>
           </tr>
         </table>
@@ -40,6 +40,11 @@
 </template>
 
 <style scoped>
+
+.first{
+  color: rgb(9, 199, 47);
+  background-color: #130347;
+}
   td:nth-child(even){
     background-color: #130347;
   }
@@ -50,12 +55,13 @@ td {
     text-align: left;
 }
 table, th, td {
-  width: 500px;
+  width: 700px;
   border: rgb(112, 112, 112);
   border-style: solid;
   border-collapse: collapse;
 }
 table {
   border-radius: 50%;
+  color: azure;
 }
 </style>
