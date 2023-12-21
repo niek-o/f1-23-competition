@@ -1,0 +1,15 @@
+﻿version: "3.7"
+
+services:
+  racingsim-db:
+    image: mysql:latest
+    volumes:
+      - racingsim-db:/var/lib/mysql
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: RacingSim2023
+      MYSQL_DATABASE: RacingSim2023
+
+volumes:
+  racingsim-db: 
