@@ -1,13 +1,13 @@
-﻿namespace BackEnd;
+namespace F1TelemetryReader;
 
 class Program
 {
     static void Main(string[] args)
     {
         // Instance the client listening on port 20777 (the default)
-        var f1TelemetryReader = new F1TelemetryReader();
+        var telemetryReader = new TelemetryReader();
         
-        Console.WriteLine(f1TelemetryReader.IsConnected());
+        Console.WriteLine(telemetryReader.IsConnected());
         
         Console.CursorVisible = false;
         Console.Read();

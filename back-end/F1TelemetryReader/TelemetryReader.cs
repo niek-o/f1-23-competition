@@ -1,25 +1,33 @@
-﻿using F1Sharp;
+﻿using System.Net.Http;
+using System.Text;
+using System.Text.Json;
+using F1Sharp;
 using F1Sharp.Packets;
+using Core.Entities;
+using Core.Entities.Dto;
 
-namespace BackEnd;
+namespace F1TelemetryReader;
 
-class F1TelemetryReader
+public class TelemetryReader
 {
     private readonly TelemetryClient _telemetryClient;
-    
+
     private static uint OldTime { get; set; }
 
-    private static bool TimeTrial { get; set; }
-    
+    private static SessionPacket SessionData { get; set; }
+
+    private bool SessionStarted { get; set; } = false;
+
     /// <summary>
     /// Initiate the F1 telemetry reader.
     /// </summary>
     /// <param name="port">The port to listen to (default = 20777)</param>
-    public F1TelemetryReader(int port = 20777)
+    public TelemetryReader(int port = 20777)
     {
         _telemetryClient = new TelemetryClient(port);
-        
+
         _telemetryClient.OnLapDataReceive += Client_OnLapDataReceive;
+
         _telemetryClient.OnSessionDataReceive += Client_OnSessionDataReceive;
     }
 
@@ -27,7 +35,7 @@ class F1TelemetryReader
     {
         return _telemetryClient.Connected;
     }
-    
+
     private static void Client_OnLapDataReceive(LapDataPacket packet)
     {
         // Get the player index from the list of cars in the session
@@ -39,21 +47,29 @@ class F1TelemetryReader
         if (OldTime != carTelemetryData.lastLapTimeInMS)
         {
             OldTime = carTelemetryData.lastLapTimeInMS;
-            
+
             var timeSpan = TimeSpan.FromMilliseconds(carTelemetryData.lastLapTimeInMS);
 
-            var formattedTime = $"{timeSpan.Minutes:D2}:{timeSpan.Seconds:D2}.{timeSpan.Milliseconds:D3}";
+            var formattedTime = $"{timeSpan.Minutes:D1}:{timeSpan.Seconds:D2}.{timeSpan.Milliseconds:D3}";
 
             Console.WriteLine($"Last laptime: {formattedTime}");
+
+            var laptime = new CreateLapDto
+            {
+                LapTimeInMS = Convert.ToInt32(carTelemetryData.lastLapTimeInMS),
+                TrackId = SessionData.trackId
+            };
+
+            // TODO: POST Request Laptime to api/lap
         }
     }
 
-    private static void Client_OnSessionDataReceive(SessionPacket packet)
+    private void Client_OnSessionDataReceive(SessionPacket packet)
     {
-        if (!TimeTrial)
-        {
-            Console.WriteLine($"Time trial: {packet.sessionType == Session.TT}");
-            TimeTrial = packet.sessionType == Session.TT;
-        }
+        if (packet.sessionType != Session.TT || SessionStarted) return;
+
+        SessionStarted = true;
+        Console.WriteLine($"Time trial: {packet.sessionType == Session.TT}");
+        SessionData = packet;
     }
 }
