@@ -36,7 +36,7 @@ public class TelemetryReader
         return _telemetryClient.Connected;
     }
 
-    private static void Client_OnLapDataReceive(LapDataPacket packet)
+    private static async void Client_OnLapDataReceive(LapDataPacket packet)
     {
         // Get the player index from the list of cars in the session
         int playerIndex = packet.header.playerCarIndex;
@@ -44,7 +44,7 @@ public class TelemetryReader
         // Select the player's car from the list of car telemetries
         var carTelemetryData = packet.lapData[playerIndex];
 
-        if (OldTime != carTelemetryData.lastLapTimeInMS)
+        if (OldTime != carTelemetryData.lastLapTimeInMS && !Convert.ToBoolean(carTelemetryData.currentLapInvalid))
         {
             OldTime = carTelemetryData.lastLapTimeInMS;
 
@@ -61,6 +61,9 @@ public class TelemetryReader
             };
 
             // TODO: POST Request Laptime to api/lap
+            ApiClient apiClient = new ApiClient();
+
+            await apiClient.PostRequest(laptime);
         }
     }
 
