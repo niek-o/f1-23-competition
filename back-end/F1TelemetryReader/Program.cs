@@ -6,9 +6,9 @@ class Program
     {
         // Instance the client listening on port 20777 (the default)
         var telemetryReader = new TelemetryReader();
-        
+
         Console.WriteLine(telemetryReader.IsConnected());
-        
+
         Console.CursorVisible = false;
         Console.Read();
     }
