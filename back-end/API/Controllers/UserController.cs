@@ -25,7 +25,7 @@ namespace API.Controllers
         [Route("/user/{id}")]
         public async Task<ActionResult<UserDto>> GetUsers([FromServices] IUserService userService, int id)
         {
-            return await userService.GetUser(id);
+            return Ok(await userService.GetUser(id));
         }
 
         // PUT: api/

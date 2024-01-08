@@ -23,7 +23,7 @@ namespace API.Controllers
         [Route("/lap")]
         public async Task<ActionResult<LapDto>> GetLap([FromServices] ILapService lapService, int id)
         {
-            return await lapService.GetLap(id);
+            return Ok(await lapService.GetLap(id));
         }
 
         // POST: api/User

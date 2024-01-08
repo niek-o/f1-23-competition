@@ -14,5 +14,6 @@ public static class DependencyInjection
     {
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ILapRepository, LapRepository>();
+        services.AddScoped<IEventRepository, EventRepository>();
     }
 }

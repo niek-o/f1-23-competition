@@ -15,6 +15,7 @@ public static class DependencyInjection
     {
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<ILapService, LapService>();
+        services.AddScoped<IEventService, EventService>();
     }
 
     private static void RegisterAutoMapper(this IServiceCollection services)

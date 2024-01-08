@@ -13,4 +13,5 @@ public class F1DbContext : IdentityDbContext<IdentityUser>
     
     public DbSet<User> Users { get; set; }
     public DbSet<Lap> Laps { get; set; }
+    public DbSet<Event> Events { get; set; }
 }
