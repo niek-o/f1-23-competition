@@ -35,7 +35,14 @@ public class EventService : IEventService
                 Id = events.Id
             };
 
-        _currentEventId = eventResult.First().Id;
+        try
+        {
+            _currentEventId = eventResult.First().Id;
+        }
+        catch
+        {
+            _currentEventId = -1;
+        }
     }
 
     public async Task<EventDto> CreateEvent(CreateEventDto createEvent)
