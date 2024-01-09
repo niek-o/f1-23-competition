@@ -13,12 +13,9 @@ public class MemoryStore : IMemoryStore
         _memoryCache = memoryCache;
     }
     
-    public string GetCachedData(string key)
+    public string? GetCachedData(string key)
     {
-        if (!_memoryCache.TryGetValue(key, out string? cachedData))
-        {
-            if (cachedData == null) throw new MemoryCacheNotFoundException(key);
-        }
+        _memoryCache.TryGetValue(key, out string? cachedData);
         
         return cachedData!;
     }
@@ -28,7 +25,7 @@ public class MemoryStore : IMemoryStore
         var cacheEntryOptions = new MemoryCacheEntryOptions
         {
             // Set cache expiration and other options if needed
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(1),
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(7),
             // ...
         };
             

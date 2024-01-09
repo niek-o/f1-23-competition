@@ -1,12 +1,7 @@
-using API.Database;
-using API.Database.Interfaces;
-using API.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Core.Entities;
 using API.Services.Interfaces;
+using Core.Entities;
 using Core.Entities.Dto;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace API.Controllers
 {
@@ -22,15 +17,6 @@ namespace API.Controllers
             return Ok(await eventService.GetEvent(id));
         }
 
-        // GET: api/event
-        // Get current event
-        [HttpGet]
-        [Route("/event")]
-        public async Task<ActionResult<EventDto>> GetCurrentEvent([FromServices] IEventService eventService)
-        {
-            return Ok(await eventService.GetCurrentEvent());
-        }
-        
         [HttpPost]
         [Route("/event")]
         public async Task<ActionResult<EventDto>> CreateEvent([FromServices] IEventService eventService, CreateEventDto createEvent)
@@ -47,6 +33,39 @@ namespace API.Controllers
         public async Task<ActionResult<List<EventDto>>> PostUser([FromServices] IEventService eventService)
         {
             return Ok(await eventService.GetAllEvents());
+        }      
+        
+        // GET: api/event
+        // Get current event
+        [HttpGet]
+        [Route("/currentevent")]
+        public async Task<ActionResult<EventDto>> GetCurrentEvent([FromServices] IEventService eventService)
+        {
+            EventDto currentEvent = await eventService.GetCurrentEvent();
+            
+            return Ok(currentEvent);
+        }                
+        
+        // GET: api/event
+        // Get current event
+        [HttpGet]
+        [Route("/currentevent/results")]
+        public async Task<ActionResult<Result>> GetCurrentEventResults([FromServices] IEventService eventService)
+        {
+            Result currentEvent = await eventService.GetCurrentEventResults();
+            
+            return Ok(currentEvent);
+        }
+        
+        // GET: api/event
+        // Get current event
+        [HttpGet]
+        [Route("/results/{id}")]
+        public async Task<ActionResult<Result>> GetEventResults([FromServices] IEventService eventService, int id)
+        {
+            Result currentEvent = await eventService.GetEventResults(id);
+            
+            return Ok(currentEvent);
         }
     }
 }

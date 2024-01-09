@@ -30,7 +30,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         if (entity == null)
             throw new ResourceNotFoundException(typeof(TEntity));
 
-        return await DbSet.Where(predicate).FirstOrDefaultAsync();
+        return await DbSet.Where(predicate).FirstAsync();
     }
     
     /// <summary>

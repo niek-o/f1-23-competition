@@ -11,13 +11,6 @@ namespace API.Controllers
     [ApiController]
     public class LapController : ControllerBase
     {
-        private readonly IMemoryCache _memoryCache;
-
-        public LapController(IMemoryCache memoryCache)
-        {
-            _memoryCache = memoryCache;
-        }
-
         // GET: api/User
         [HttpGet]
         [Route("/lap")]

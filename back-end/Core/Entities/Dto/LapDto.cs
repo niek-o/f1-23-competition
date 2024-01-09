@@ -10,4 +10,5 @@ public class LapDto
     public int LapTimeInMS { get; set; }
     public DateTime TimeSet { get; set; }
     public Track TrackId { get; set; }
+    public int EventId { get; set; }
 }
