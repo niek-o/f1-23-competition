@@ -44,7 +44,9 @@ public class TelemetryReader
         // Select the player's car from the list of car telemetries
         var carTelemetryData = packet.lapData[playerIndex];
 
-        if (OldTime != carTelemetryData.lastLapTimeInMS && !Convert.ToBoolean(carTelemetryData.currentLapInvalid))
+        var validLap = !Convert.ToBoolean(carTelemetryData.currentLapInvalid);
+
+        if (OldTime != carTelemetryData.lastLapTimeInMS && validLap)
         {
             OldTime = carTelemetryData.lastLapTimeInMS;
 
@@ -62,7 +64,7 @@ public class TelemetryReader
 
             // TODO: POST Request Laptime to api/lap
             ApiClient apiClient = new ApiClient();
-
+            
             await apiClient.PostRequest(laptime);
         }
     }

@@ -55,20 +55,6 @@ public class LapService : ILapService
         return _mapper.Map<LapDto>(result);
     }
 
-    private int GetCurrentEventId()
-    {
-        IMemoryStore memoryStore = new MemoryStore(_memoryCache);
-
-        var eventId = memoryStore.GetCachedData("CurrentEventId");
-
-        if (eventId == null)
-        {
-            return -1;
-        }
-
-        return Convert.ToInt32(eventId);
-    }
-
     public async Task<LapDto> GetLap(int id)
     {
         Lap result = await _lapRepository.GetFirstAsync(m => m.Id == id);
