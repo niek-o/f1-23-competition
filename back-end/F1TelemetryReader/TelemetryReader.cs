@@ -18,6 +18,8 @@ public class TelemetryReader
 
     private bool SessionStarted { get; set; } = false;
 
+    private static bool ValidLap { get; set; }
+
     /// <summary>
     /// Initiate the F1 telemetry reader.
     /// </summary>
@@ -44,10 +46,10 @@ public class TelemetryReader
         // Select the player's car from the list of car telemetries
         var carTelemetryData = packet.lapData[playerIndex];
 
-        var validLap = !Convert.ToBoolean(carTelemetryData.currentLapInvalid);
-
-        if (OldTime != carTelemetryData.lastLapTimeInMS && validLap)
+        if (OldTime != carTelemetryData.lastLapTimeInMS && !Convert.ToBoolean(carTelemetryData.currentLapInvalid))
         {
+            ValidLap = true;
+
             OldTime = carTelemetryData.lastLapTimeInMS;
 
             var timeSpan = TimeSpan.FromMilliseconds(carTelemetryData.lastLapTimeInMS);
@@ -64,7 +66,7 @@ public class TelemetryReader
 
             // TODO: POST Request Laptime to api/lap
             ApiClient apiClient = new ApiClient();
-            
+
             await apiClient.PostRequest(laptime);
         }
     }
