@@ -5,6 +5,7 @@ using API.Repositories.Interfaces;
 using API.Services.Interfaces;
 using Core.Entities;
 using Core.Entities.Dto;
+using F1Sharp;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using NuGet.Protocol;
@@ -104,27 +105,30 @@ public class EventService : IEventService
 
         List<LeaderBoardEntry> leaderBoardEntries = new List<LeaderBoardEntry>();
 
-        foreach (User distinctuser in distinctusers)
+
+        var lapsResult =
+            from laps in _context.Laps
+            where laps.EventId == id
+            where laps.TrackId == eventQueryResult.TrackId
+            orderby laps.LapTimeInMS
+            select laps;
+
+        var lapsQueryResults = lapsResult.ToList();
+        
+        foreach (var lap in lapsQueryResults)
         {
-            var lapsResult =
-                from laps in _context.Laps
-                where laps.EventId == id
-                where laps.UserId == distinctuser.Id
-                where laps.TrackId == eventQueryResult.TrackId
-                select laps;
+            var userResult =
+                from users in _context.Users
+                where users.Id == lap.UserId
+                select users;
 
-            var lapQueryResult = lapsResult.ToList();
-
-            foreach (Lap lap in lapQueryResult)
+            var usersQueryResult = await userResult.FirstAsync();
+            
+            leaderBoardEntries.Add(new LeaderBoardEntry
             {
-                {
-                    leaderBoardEntries.Add(new LeaderBoardEntry
-                    {
-                        Lap = lap,
-                        User = distinctuser
-                    });
-                }
-            }
+                Lap = lap,
+                User = usersQueryResult
+            });
         }
 
         var endResult = new Result
@@ -139,5 +143,12 @@ public class EventService : IEventService
     public Task<Result> GetCurrentEventResults()
     {
         return GetEventResults(_currentEventId);
+    }
+
+    public String GetTrackNameById(int id)
+    {
+        var trackItem = (Track)id;
+
+        return trackItem.ToString();
     }
 }

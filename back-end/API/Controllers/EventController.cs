@@ -67,5 +67,14 @@ namespace API.Controllers
             
             return Ok(currentEvent);
         }
+
+        [HttpGet]
+        [Route("/track/{id}")]
+        public async Task<ActionResult<String>> GetTrackNameById([FromServices] IEventService eventService, int id)
+        {
+            String track = eventService.GetTrackNameById(id);
+
+            return Ok(track);
+        }
     }
 }
