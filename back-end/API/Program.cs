@@ -34,6 +34,15 @@ class Program
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy(name: "*",
+                policy =>
+                {
+                    policy.WithOrigins("*");
+                });
+        });
         
         var app = builder.Build();
 
@@ -49,6 +58,8 @@ class Program
         app.UseAuthorization();
 
         app.MapControllers();
+        
+        app.UseCors("*");
 
         app.Run();
     }
