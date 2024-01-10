@@ -12,4 +12,5 @@ public interface IEventService
     Task<List<EventDto>> GetAllEvents();
     Task<Result> GetCurrentEventResults();
     Task<Result> GetEventResults(int id);
+    string GetTrackNameById(int id);
 }

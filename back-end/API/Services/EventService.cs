@@ -5,6 +5,7 @@ using API.Repositories.Interfaces;
 using API.Services.Interfaces;
 using Core.Entities;
 using Core.Entities.Dto;
+using F1Sharp;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using NuGet.Protocol;
@@ -139,5 +140,12 @@ public class EventService : IEventService
     public Task<Result> GetCurrentEventResults()
     {
         return GetEventResults(_currentEventId);
+    }
+
+    public String GetTrackNameById(int id)
+    {
+        var trackItem = (Track)id;
+
+        return trackItem.ToString();
     }
 }
