@@ -2,7 +2,7 @@ import YourTableComponent from './components/YourTableComponent'; // Adjust the 
 
 export default function ParentComponent() {
   return (
-    <div>
+    <div className={"px-48"}>
       <YourTableComponent />
     </div>
   );
