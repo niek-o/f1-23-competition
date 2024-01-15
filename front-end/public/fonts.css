@@ -1,0 +1,20 @@
+@font-face {
+    font-family: 'Formula1-bold';
+    src: url('./fonts/Formula1-bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Formula1-regular';
+    src: url('./fonts/Formula1-regular_web.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Formula1-wide';
+    src: url('./fonts/Formula1-Wide-web.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
