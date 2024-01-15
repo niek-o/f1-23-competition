@@ -10,7 +10,7 @@ const YourTableComponent = ({ data }) => {
 
   const fetchData = async () => {
     // Assuming you have an endpoint to fetch additional data with pagination
-    const res = await fetch(`http://localhost:5058/currentevent/results?page=${pageNumber}`);
+    const res = await fetch(`http://localhost:5058/currentevent/results`);
     const newData = await res.json();
 
     if (newData.leaderBoard.length > 0) {
