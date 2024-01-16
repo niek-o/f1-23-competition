@@ -10,13 +10,14 @@ class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+        const string myAllowSpecificOrigins = "_myAllowSpecificOrigins";
         // Add services to the container.
 
         builder.Services.AddDataAccess(builder.Configuration);
         builder.Services.AddDataServices(builder.Configuration);
         builder.Services.AddApplication(builder.Configuration);
         builder.Services.AddMemoryCache();
-        
+
         builder.Services.AddControllers();
 
         builder.Services.AddIdentityCore<IdentityUser>(options =>
@@ -37,13 +38,10 @@ class Program
 
         builder.Services.AddCors(options =>
         {
-            options.AddPolicy(name: "*",
-                policy =>
-                {
-                    policy.WithOrigins("*");
-                });
+            options.AddPolicy(name: myAllowSpecificOrigins,
+                policy => { policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod(); });
         });
-        
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -58,8 +56,8 @@ class Program
         app.UseAuthorization();
 
         app.MapControllers();
-        
-        app.UseCors("*");
+
+        app.UseCors(myAllowSpecificOrigins);
 
         app.Run();
     }
