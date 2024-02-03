@@ -14,7 +14,28 @@ const YourTableComponent = ({ data }) => {
         const newData = await res.json();
 
         if (newData.leaderBoard.length > 0) {
-            setTableData(newData.leaderBoard)
+
+            const usersArray = [];
+
+            newData.leaderBoard.map(e => {
+                if (!usersArray.includes(e.user.id)) {
+                    usersArray.push(e.user.id);
+                }
+            });
+
+            const tabledata = []
+
+            usersArray.map(uid => {
+                const r = (newData.leaderBoard).find(e => {
+                    return e.user.id === uid;
+                })
+
+                tabledata.push(r)
+            })
+
+            console.log(tabledata)
+
+            setTableData(tabledata);
         }
     };
 
@@ -46,7 +67,7 @@ const YourTableComponent = ({ data }) => {
 
         setInterval(() => {
             fetchData();
-        }, 10000);
+        }, 5000);
     }, []); // Fetch initial data on component mount
 
     return (
@@ -79,7 +100,7 @@ const YourTableComponent = ({ data }) => {
                                 className="bg-white dark:border-gray-700 dark:bg-gray-800"
                             >
                                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                                    {i+1}
+                                    {i + 1}
                                 </Table.Cell>
                                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                                     {entry.lap.lapTime}
