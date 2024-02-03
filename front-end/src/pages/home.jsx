@@ -24,7 +24,9 @@ export default function ParentComponent() {
 
 
     useEffect(() => {
-        fetchData();
+        setInterval(() => {
+            fetchData();
+        }, 10000);
     }, []); // Fetch initial data on component mount
 
     return (
